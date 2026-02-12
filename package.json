@@ -1,0 +1,50 @@
+{
+  "name": "vite-plugin-component-ref",
+  "version": "1.0.0",
+  "description": "A powerful Vite plugin that automatically tags React components with source reference attributes, enabling features like 'Alt + Click' to open source files in your IDE.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean",
+    "dev": "tsup src/index.ts --format cjs,esm --watch --dts",
+    "lint": "tsc",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "vite",
+    "vite-plugin",
+    "react",
+    "babel",
+    "tagger",
+    "source-reference",
+    "click-to-open",
+    "antigravity",
+    "cursor"
+  ],
+    "author": {
+    "name": "Siril M Philip",
+    "email": "sirilmp.online@gmail.com",
+    "url": "sirilmp.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/parser": "^7.23.0",
+    "@babel/types": "^7.23.0",
+    "launch-editor": "^2.12.0",
+    "vite": "^6.0.0"
+  },
+  "devDependencies": {
+    "@babel/generator": "^7.23.0",
+    "@babel/traverse": "^7.23.0",
+    "@types/babel__generator": "^7.6.0",
+    "@types/babel__traverse": "^7.20.0",
+    "@types/node": "^20.10.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^3.0.0"
+  }
+}
