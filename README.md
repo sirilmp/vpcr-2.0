@@ -1,4 +1,4 @@
-# vite-plugin-component-ref
+# vpcr
 
 A powerful Vite plugin that automatically tags React components with source reference attributes. This enables a seamless **"Alt + Click"** experience to jump from your browser directly to the corresponding line in your IDE.
 
@@ -17,9 +17,9 @@ A powerful Vite plugin that automatically tags React components with source refe
 ## Installation
 
 ```bash
-npm install vite-plugin-component-ref --save-dev
+npm install vpcr --save-dev
 # or
-yarn add vite-plugin-component-ref --dev
+yarn add vpcr --dev
 ```
 
 ## Quick Start
@@ -29,11 +29,11 @@ Add the plugin to your `vite.config.ts`:
 ```typescript
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import { componentRefTagger } from 'vite-plugin-component-ref';
+import { vpcrTagger } from 'vpcr';
 
 export default defineConfig({
   plugins: [
-    componentRefTagger({
+    vpcrTagger({
       editor: 'antigravity', // Automatically handles line-positioning flags
     }),
     react(),
@@ -60,7 +60,7 @@ export default defineConfig({
 ### Custom Editor Command
 If your editor needs a specific format, use `{file}` and `{line}` placeholders:
 ```typescript
-componentRefTagger({
+vpcrTagger({
   editor: 'my-editor --goto {file}:{line}'
 })
 ```
@@ -78,7 +78,7 @@ The plugin will automatically detect it's Cursor and use the correct positioning
 ### Selective Tagging
 Only tag components starting with "User":
 ```typescript
-componentRefTagger({
+vpcrTagger({
   shouldTag: (name) => name.startsWith('User')
 })
 ```

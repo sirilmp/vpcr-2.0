@@ -44,7 +44,7 @@ function matches(id: string, pattern: string | RegExp | (string | RegExp)[]): bo
   return id.endsWith(pattern) || id.includes(pattern);
 }
 
-export function componentRefTagger(options: PluginOptions = {}): Plugin {
+export function vpcrTagger(options: PluginOptions = {}): Plugin {
   const opts = { ...defaultOptions, ...options };
   const { prefix, attributes, basePath, include, exclude, enabled, shouldTag, editor, openInEditor } = opts;
 
@@ -76,7 +76,7 @@ export function componentRefTagger(options: PluginOptions = {}): Plugin {
   `;
 
   return {
-    name: "vite-plugin-component-ref",
+    name: "vpcr",
     enforce: "pre",
 
     apply: "serve", // Ensure plugin only runs during dev
@@ -124,14 +124,14 @@ export function componentRefTagger(options: PluginOptions = {}): Plugin {
                     : command.replace(absolutePath, `"${absolutePath}"`);
 
                   exec(finalCommand, (err) => {
-                    if (err) console.error(`[ComponentRefTagger] Command failed: ${finalCommand}`, err);
+                    if (err) console.error(`[vpcrTagger] Command failed: ${finalCommand}`, err);
                   });
                 } else {
                   launchEditor(`${absolutePath}:${lineNum}`, targetEditor);
                 }
               }
             } catch (err) {
-              console.error("[ComponentRefTagger] Error launching editor:", err);
+              console.error("[vpcrTagger] Error launching editor:", err);
             }
 
             res.end("ok");

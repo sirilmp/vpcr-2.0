@@ -1,6 +1,6 @@
 {
-  "name": "vite-plugin-component-ref",
-  "version": "1.0.2",
+  "name": "vpcr",
+  "version": "1.0.0",
   "description": "A powerful Vite plugin that automatically tags React components with source reference attributes, enabling features like 'Alt + Click' to open source files in your IDE.",
   "homepage": "https://vpcr.vercel.app",
   "changelog": "https://vpcr.vercel.app/changelog",
