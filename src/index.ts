@@ -178,7 +178,19 @@ export function vpcrTagger(options: PluginOptions = {}): Plugin {
         }
       }, true);
 
+      window.addEventListener('blur', () => {
+        isAltDown = false;
+        removeUI();
+      }, true);
+
       window.addEventListener('mousemove', (e) => {
+        // Safety check: if alt key is not pressed but we think it is, reset
+        if (isAltDown && !e.altKey) {
+          isAltDown = false;
+          removeUI();
+          return;
+        }
+
         if (!isAltDown) return;
         
         const target = e.target.closest('[${prefix}-id]');
@@ -330,14 +342,22 @@ export function vpcrTagger(options: PluginOptions = {}): Plugin {
             if (p.isFunctionDeclaration() || p.isFunctionExpression() || p.isArrowFunctionExpression()) {
               if (p.node.id) {
                 componentName = p.node.id.name;
-              } else if (p.parentPath?.isVariableDeclarator()) {
-                if (t.isIdentifier(p.parentPath.node.id)) {
-                  componentName = p.parentPath.node.id.name;
+              } else {
+                // Check for HOCs (e.g. memo, forwardRef)
+                let parent = p.parentPath;
+                while (parent && parent.isCallExpression()) {
+                  parent = parent.parentPath;
                 }
-              } else if (p.parentPath?.isExportDefaultDeclaration()) {
-                componentName = path.basename(normalizedId, path.extname(normalizedId));
+
+                if (parent?.isVariableDeclarator()) {
+                  if (t.isIdentifier(parent.node.id)) {
+                    componentName = parent.node.id.name;
+                  }
+                } else if (parent?.isExportDefaultDeclaration()) {
+                  componentName = path.basename(normalizedId, path.extname(normalizedId));
+                }
               }
-              break;
+              if (componentName !== "unknown") break;
             }
             p = p.parentPath;
           }

@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+## [1.0.7] - 2026-02-17
+
+### Fixed
+- Fixed an issue where the highlighter overlay would remain visible after Alt-clicking a component and returning to the browser window without the Alt key pressed. Added a `blur` event listener to reset the state and improved `mousemove` checks.
+
 ## [1.0.4] - 2026-02-15
 
 
