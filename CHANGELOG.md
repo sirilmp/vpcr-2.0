@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Added `enableHighlighter` option to `PluginOptions` (default: `true`).
 - Improved tooltip to show component name even if not explicitly added to attributes.
+- Updated the env variable name to `VPCR_EDITOR`
 
 ## [1.0.7] - 2026-02-17
 
