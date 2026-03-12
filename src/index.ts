@@ -21,6 +21,7 @@ export interface PluginOptions {
   editor?: string;
   openInEditor?: (filePath: string, line: number) => void;
   enableHighlighter?: boolean;
+  enableAudioFeedback?: boolean;
 }
 
 const defaultOptions: Required<PluginOptions> = {
@@ -34,7 +35,9 @@ const defaultOptions: Required<PluginOptions> = {
   editor: "code",
   openInEditor: () => {},
   enableHighlighter: true,
+  enableAudioFeedback: true,
 };
+
 
 function matches(id: string, pattern: string | RegExp | (string | RegExp)[]): boolean {
   if (Array.isArray(pattern)) {
@@ -48,7 +51,7 @@ function matches(id: string, pattern: string | RegExp | (string | RegExp)[]): bo
 
 export function vpcrTagger(options: PluginOptions = {}): Plugin {
   const opts = { ...defaultOptions, ...options };
-  const { prefix, attributes, basePath, include, exclude, enabled, shouldTag, editor, openInEditor, enableHighlighter } = opts;
+  const { prefix, attributes, basePath, include, exclude, enabled, shouldTag, editor, openInEditor, enableHighlighter, enableAudioFeedback } = opts;
 
   let config: ResolvedConfig;
 
@@ -59,6 +62,38 @@ export function vpcrTagger(options: PluginOptions = {}): Plugin {
   const clientScript = `
     (function() {
       const enableHighlighter = ${enableHighlighter};
+      const enableAudioFeedback = ${enableAudioFeedback};
+      
+      let audioCtx = null;
+      function playPop() {
+        if (!enableAudioFeedback) return;
+        try {
+          if (!audioCtx) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          }
+          if (audioCtx.state === 'suspended') {
+            audioCtx.resume();
+          }
+          const oscillator = audioCtx.createOscillator();
+          const gainNode = audioCtx.createGain();
+          
+          oscillator.type = 'sine';
+          oscillator.connect(gainNode);
+          gainNode.connect(audioCtx.destination);
+          
+          oscillator.frequency.setValueAtTime(800, audioCtx.currentTime);
+          oscillator.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.05);
+
+          gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+          oscillator.start(audioCtx.currentTime);
+          oscillator.stop(audioCtx.currentTime + 0.1);
+        } catch (e) {
+          // Ignore audio errors
+        }
+      }
+
       // Inject CSS
       const style = document.createElement('style');
       style.textContent = \`
@@ -230,6 +265,9 @@ export function vpcrTagger(options: PluginOptions = {}): Plugin {
             const [file, line] = refId.split(':');
             fetch('/__open-in-editor?file=' + encodeURIComponent(file) + '&line=' + line);
             
+            // Audio feedback
+            playPop();
+
             // Visual feedback
             if (overlay) {
               overlay.style.backgroundColor = 'rgba(59, 130, 246, 0.4)';
@@ -278,7 +316,14 @@ export function vpcrTagger(options: PluginOptions = {}): Plugin {
                 let cmdTemplate = targetEditor;
 
                 // Smart defaults for known editors
-                const isVSCodeBase = ["cursor", "cursor-nightly", "code", "code-insiders", "antigravity", "agy"].includes(targetEditor || "");
+                const vsCodeEditors = [
+                  "cursor", "cursor-nightly", "code", "code-insiders", 
+                  "vscodium", "codium", "codium-insiders", "windsurf", 
+                  "pearai", "trae", "code-server", "qoder", "kiro", 
+                  "kirio", "antigravity", "agy", "positron"
+                ];
+                const normalizedEditor = (targetEditor || "").toLowerCase();
+                const isVSCodeBase = vsCodeEditors.includes(normalizedEditor) || vsCodeEditors.some(ed => normalizedEditor.endsWith(ed));
                 
                 if (isVSCodeBase && (!cmdTemplate || !cmdTemplate.includes("{file}"))) {
                   cmdTemplate = `${targetEditor} -g "{file}":{line}`;

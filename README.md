@@ -9,7 +9,7 @@ A powerful Vite plugin that automatically tags React components with source refe
 
 - **Automatic Tagging**: Injects `ref-id`, `ref-component`, `ref-line`, etc., into your JSX elements.
 - **Click-to-Open**: Press `Alt + Click` in the browser to instantly open the source file in your editor at the exact line.
-- **Smart Editor Defaults**: Built-in support for `antigravity`, `cursor`, and `vscode` (no manual configuration needed).
+- **Smart Editor Defaults**: Built-in support for VS Code and its many forks (e.g., cursor, windsurf, codium, coder, kiro, antigravity, qoder) (no manual configuration needed).
 - **Flexible Configuration**: Full control over what attributes to inject and which files to include/exclude.
 - **Team Friendly**: Environment variable overrides allow each developer to use their preferred editor.
 - **Production Safe**: Automatically disables itself in production builds to keep your bundle clean.
@@ -54,6 +54,8 @@ export default defineConfig({
 | `editor` | `string` | `"code"` | Your preferred editor (e.g., `antigravity`, `cursor`, `code`). |
 | `shouldTag` | `(comp, path) => boolean`| `() => true` | Custom filter for specific components or files. |
 | `openInEditor`| `(path, line) => void` | `undefined` | Custom callback for manual editor integration. |
+| `enableHighlighter`| `boolean` | `true` | Show the bounding box overlay on hover. |
+| `enableAudioFeedback`| `boolean` | `true` | Play a subtle "pop" sound when a component is clicked. |
 
 ## Advanced Usage
 
