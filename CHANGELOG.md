@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+## [1.0.10] - 2026-05-10
+
+### Added
+- Added support for Vite `^8.0.0` in `peerDependencies`.
+
 ## [1.0.8] - 2026-02-19
 
 ### Added

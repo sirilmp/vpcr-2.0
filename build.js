@@ -9,9 +9,10 @@ async function build() {
             platform: 'node',
             outfile: 'dist/index.js',
             format: 'cjs',
+            minify: true,
             external: ['vite', '@babel/parser', '@babel/types', '@babel/traverse', '@babel/generator', 'launch-editor', 'path', 'child_process']
         });
-        console.log('Built CJS to dist/index.js');
+        console.log('Built minified CJS to dist/index.js');
 
         await esbuild.build({
             entryPoints: ['src/index.ts'],
@@ -19,9 +20,10 @@ async function build() {
             platform: 'node',
             outfile: 'dist/index.mjs',
             format: 'esm',
+            minify: true,
             external: ['vite', '@babel/parser', '@babel/types', '@babel/traverse', '@babel/generator', 'launch-editor', 'path', 'child_process']
         });
-        console.log('Built ESM to dist/index.mjs');
+        console.log('Built minified ESM to dist/index.mjs');
     } catch (e) {
         console.error('Build failed:', e);
         process.exit(1);
