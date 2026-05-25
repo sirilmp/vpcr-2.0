@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 
 
+## [1.1.1] - 2026-05-25
+
+### Added
+- **Proactive Editor Pre-Scanning:** Spawns a background process scanner silently at server startup to pre-resolve and cache the active editor path, completely eliminating the Windows process/registry scanning delay on first click.
+
 ## [1.1.0] - 2026-05-24
 
 ### Added

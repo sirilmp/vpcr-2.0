@@ -228,7 +228,7 @@ export function vpcrTagger(options: PluginOptions = {}): Plugin {
           transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         .vpcr-dock.expanded, .vpcr-dock.active {
-          bottom: 16px;
+          bottom: 5px;
           transform: translateX(-50%) translateY(0);
           width: 66px;
           height: 32px;
@@ -742,6 +742,25 @@ export function vpcrTagger(options: PluginOptions = {}): Plugin {
     },
 
     configureServer(server) {
+      // Proactive background editor scanning to completely eliminate the first-click powershell scanning delay on Windows!
+      if (!options.openInEditor && !process.env.VPCR_EDITOR && !editor) {
+        setTimeout(() => {
+          try {
+            if (process.env.ANTIGRAVITY_EDITOR_APP_ROOT) {
+              process.env.VPCR_EDITOR = "antigravity";
+            } else {
+              const guessEditor = require("launch-editor/guess");
+              const guessed = guessEditor();
+              if (guessed && guessed[0]) {
+                process.env.VPCR_EDITOR = guessed[0];
+              }
+            }
+          } catch (e) {
+            // Silently ignore background scanning errors
+          }
+        }, 100);
+      }
+
       server.middlewares.use((req, res, next) => {
         if (req.url?.startsWith("/__open-in-editor")) {
           const url = new URL(req.url, `http://${req.headers.host}`);
