@@ -1,6 +1,6 @@
 {
   "name": "vpcr",
-  "version": "1.0.10",
+  "version": "1.1.0",
   "description": "A powerful Vite plugin that automatically tags React components with source reference attributes, enabling features like 'Alt + Click' to open source files in your IDE.",
   "homepage": "https://vpcr.vercel.app",
   "changelog": "https://vpcr.vercel.app/changelog",
@@ -18,10 +18,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm --dts --clean --minify",
+    "build": "tsup src/index.ts --format cjs,esm --dts --clean --minify && node -e \"const fs = require('fs'); fs.mkdirSync('dist/icons', {recursive:true}); fs.copyFileSync('src/icons/vite.png', 'dist/icons/vite.png'); fs.copyFileSync('src/icons/vpcr.png', 'dist/icons/vpcr.png'); fs.copyFileSync('src/icons/point.svg', 'dist/icons/point.svg'); fs.copyFileSync('src/icons/question-mark.svg', 'dist/icons/question-mark.svg');\"",
     "dev": "tsup src/index.ts --format cjs,esm --watch --dts --minify",
     "lint": "tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "audit-pkg": "npm audit",
+    "pack-pkg": "npm pack --dry-run",
+    "audit-fix": "npm audit fix"
   },
   "keywords": [
     "vite",

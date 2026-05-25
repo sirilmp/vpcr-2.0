@@ -30,7 +30,7 @@ describe('componentRefTagger transformation', () => {
         const id = '/project/src/MyComponent.tsx';
         const result = plugin.transform(code, id);
 
-        expect(result).toContain('ref-id="src/MyComponent.tsx:3"');
+        expect(result).toContain('ref-id="src/MyComponent.tsx:3:MyComponent"');
         expect(result).toContain('ref-component="MyComponent"');
         expect(result).toContain('ref-name="div"');
     });
@@ -48,8 +48,8 @@ describe('componentRefTagger transformation', () => {
         const id = '/project/src/MyComponent.tsx';
         const result = plugin.transform(code, id);
 
-        expect(result).toContain('ref-id="src/MyComponent.tsx:4"');
-        expect(result).toContain('ref-id="src/MyComponent.tsx:5"');
+        expect(result).toContain('ref-id="src/MyComponent.tsx:4:MyComponent"');
+        expect(result).toContain('ref-id="src/MyComponent.tsx:5:MyComponent"');
     });
 
     it('should skip files not in include list', () => {

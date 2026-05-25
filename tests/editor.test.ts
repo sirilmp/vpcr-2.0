@@ -8,7 +8,7 @@ describe('componentRefTagger editor logic', () => {
         plugin = componentRefTagger({});
         // We can't easily test private configureServer logic without exports
         // but we can verify options are handled
-        expect(plugin.name).toBe('vite-component-ref-tagger');
+        expect(plugin.name).toBe('vpcr');
     });
 
     it('should respect VPCR_EDITOR environment variable', () => {

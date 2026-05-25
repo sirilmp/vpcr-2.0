@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 
 
+## [1.1.0] - 2026-05-24
+
+### Added
+- **In-Page Component Inspector:** A highly responsive floating button centered at the bottom of the viewport that toggles the inspector mode on and off with a single click.
+- **Escape key support:** You can now press the `Esc` key to instantly exit and clean up the active inspector overlay.
+- **Smart IDE Auto-Detection:** Automatically identifies whether you are running the project inside VS Code, Cursor,Antigravity IDE or any code editor, opening code files at the exact line instantly.
+
 ## [1.0.10] - 2026-05-10
 
 ### Added
